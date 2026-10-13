@@ -23,8 +23,7 @@ export const portfolio = {
   introduction: 'Computer Science Engineering student specializing in Data Analytics, Business Intelligence, and AI-driven solutions. Interested in transforming data into actionable insights.',
   about: 'Computer Science Engineering student with experience in Power BI, Python, SQL, and full-stack development. Interested in data analytics, business intelligence, and AI-driven solutions.',
   education: [
-    { label: 'Degree', value: 'B.E. (Hons) in Computer Science Engineering' },
-    { label: 'MIIT', value: 'Myanmar Institute of Information Technology · 2022–2027' },
+    { label: 'MIIT', value: 'B.E. (Hons) in Computer Science Engineering · Myanmar Institute of Information Technology · 2022–2027' },
     { label: 'Professional Diploma', value: 'Business Intelligence & Data Analytics · Matrix College · 2026' },
     { label: 'English Diploma', value: 'Mandalay University of Foreign Language · 2023–2024' },
     { label: 'Business Diploma', value: 'Business Management & Administration · Strategy First International College · 2022–2023' },

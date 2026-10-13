@@ -37,5 +37,5 @@ function usePortfolioMotion() {
 
 export default function App() {
   usePortfolioMotion();
-  return <><div className="cursor-follower" aria-hidden="true"><span /></div><Header /><main id="top"><Hero /><SelectedWork /><Skills /><Achievements /><Experience /><About /><Contact /></main></>;
+  return <><div className="cursor-follower" aria-hidden="true"><span /></div><Header /><main id="top"><Hero /><About /><Skills /><SelectedWork /><Achievements /><Experience /><Contact /></main></>;
 }

@@ -7,16 +7,16 @@ function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string })
 
 export function Header() {
   return <header className="site-header">
-    <a className="logo" href="#top" aria-label={`${portfolio.name} home`}><span className="logo-name">{portfolio.name}</span><span className="logo-title">{portfolio.title}</span></a>
-    <nav className="nav" aria-label="Main navigation"><a href="#work">Projects</a><a href="#skills">Skills</a><a href="#achievements">Achievements</a><a href="#experience">Experience</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <a className="logo" href="#top" aria-label={`${portfolio.name} home`}><span className="logo-name">{portfolio.name}</span><span className="logo-title">{portfolio.focus}</span></a>
+    <nav className="nav" aria-label="Main navigation"><a href="#about">About</a><a href="#skills">Skills</a><a href="#work">Projects</a><a href="#achievements">Achievements</a><a href="#experience">Experience</a><a className="nav-cta" href="#contact">Contact</a></nav>
   </header>;
 }
 
 export function Hero() {
   return <section className="portfolio-hero" data-reveal><div className="container hero-grid">
-    <div className="hero-copy"><p className="eyebrow">Hello I'm</p><h1>{portfolio.name}</h1><p className="hero-role">{portfolio.focus} · {portfolio.institution}</p></div>
+    <div className="hero-copy"><p className="eyebrow">Hello I'm</p><h1>{portfolio.name}</h1><p className="hero-role"><span>{portfolio.focus}</span><span>Computer science student at {portfolio.institution}</span></p></div>
     <div className="hero-portrait"><img className="profile-image" src={portfolio.portrait} alt={`Portrait of ${portfolio.name}`} /></div>
-    <div className="hero-intro"><p>{portfolio.introduction}</p><div className="hero-actions">
+    <div className="hero-intro"><div className="hero-actions">
       <a className="button button-default" href="#work">View My Work <ArrowUpRight size={14} /></a>
       <a className="button button-outline" href="#contact">Contact</a>
       <a className="button button-outline" href={portfolio.cv} download="Lin-Lae-Phyu-CV.pdf">Download CV</a>
@@ -55,7 +55,7 @@ export function Experience() {
   return <section className="experience section-border" id="experience" data-reveal><div className="container">
     <SectionHeading eyebrow="Experience" title="Professional experience" />
     <div className="service-list">{portfolio.experience.map((item) => <div className="service" key={item.role} data-reveal>
-      <span className="service-number">{item.period}</span><h3>{item.role}</h3><p>{item.detail}</p>
+      <span className="service-number">{item.period}</span><h3 className="experience-title">{item.role.includes('KBZPay') && <img className="kbzpay-logo" src="/kbzpay-logo.png" alt="KBZPay logo" />}{item.role}</h3><p>{item.detail}</p>
     </div>)}</div>
   </div></section>;
 }
@@ -63,7 +63,22 @@ export function Experience() {
 export function About() {
   return <section className="about section-border" id="about" data-reveal><div className="container about-grid" data-reveal>
     <div><p className="eyebrow">About</p><h2>A little about me</h2></div>
-    <div><p className="about-description">{portfolio.about}</p><dl className="facts">{portfolio.education.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl></div>
+    <div><p className="about-description">{portfolio.introduction}</p><p className="about-description about-details">{portfolio.about}</p><dl className="facts">{portfolio.education.map((fact) => {
+      const value = fact.value;
+      const institution = value.includes('Myanmar Institute of Information Technology')
+        ? { name: 'MIIT', image: '/MIIT.png' }
+        : value.includes('Mandalay University of Foreign Language')
+          ? { name: 'MUFL', image: '/MUFL.png' }
+          : value.includes('Matrix College')
+            ? { name: 'Matrix College', image: '/Matrix.png' }
+            : value.includes('Strategy First')
+              ? { name: 'Strategy First', image: '/STF.png' }
+              : undefined;
+      return <div className="fact-card" key={fact.label}>
+        {institution && <span className={`fact-logo${institution.image ? '' : ' fact-logo-text'}`}>{institution.image ? <img src={institution.image} alt={`${institution.name} logo`} /> : institution.name}</span>}
+        <div className="fact-copy"><dt>{fact.label}</dt><dd>{value}</dd></div>
+      </div>;
+    })}</dl></div>
   </div></section>;
 }
 
@@ -73,7 +88,15 @@ export function Skills() {
     <div className="service-list">{portfolio.skills.map(([label, value], index) => <div className="service" key={label} data-reveal>
       <span className="service-number">0{index + 1}</span><h3>{label}</h3><p>{value}</p>
     </div>)}</div>
-    <div className="certifications"><p className="eyebrow">Certifications</p><ul>{portfolio.certifications.map((certification) => <li key={certification}>{certification}</li>)}</ul></div>
+    <div className="certifications"><p className="eyebrow">Certifications</p><div className="certification-cards">{portfolio.certifications.map((certification) => {
+      const isAcca = certification.includes('ACCA');
+      return <article className="certification-card" key={certification}>
+        {isAcca
+          ? <div className="certification-logo certification-logo-acca" aria-label="ACCA mark">ACCA</div>
+          : <img className="certification-logo certification-logo-strategy" src="/STF.png" alt="Strategy First" />}
+        <p>{certification}</p>
+      </article>;
+    })}</div></div>
   </div></section>;
 }
 
