@@ -1,4 +1,5 @@
-import { ArrowUpRight, Github } from 'lucide-react';
+import { ArrowUpRight, Github, UserRound, LayoutGrid, PanelsTopLeft, BriefcaseBusiness, Trophy, Mail } from 'lucide-react';
+import { useState } from 'react';
 import { portfolio, type Project } from './content';
 
 function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string }) {
@@ -6,10 +7,29 @@ function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string })
 }
 
 export function Header() {
-  return <header className="site-header">
-    <a className="logo" href="#top" aria-label={`${portfolio.name} home`}><span className="logo-name">{portfolio.name}</span><span className="logo-title">{portfolio.focus}</span></a>
-    <nav className="nav" aria-label="Main navigation"><a href="#about">About</a><a href="#skills">Skills</a><a href="#work">Projects</a><a href="#achievements">Achievements</a><a href="#experience">Experience</a><a className="nav-cta" href="#contact">Contact</a></nav>
-  </header>;
+  const [dockOpen, setDockOpen] = useState(false);
+  const mobileItems = [
+    { label: 'About', href: '#about', icon: <UserRound /> },
+    { label: 'Skills', href: '#skills', icon: <LayoutGrid /> },
+    { label: 'Projects', href: '#work', icon: <PanelsTopLeft /> },
+    { label: 'Achievements', href: '#achievements', icon: <Trophy /> },
+    { label: 'Experience', href: '#experience', icon: <BriefcaseBusiness /> },
+    { label: 'Contact', href: '#contact', icon: <Mail /> },
+  ];
+  return <>
+    <header className="site-header">
+      <a className="logo" href="#top" aria-label={`${portfolio.name} home`}><span className="logo-name">{portfolio.name}</span><span className="logo-title">{portfolio.focus}</span></a>
+      <nav className="nav" aria-label="Main navigation"><a href="#about">About</a><a href="#skills">Skills</a><a href="#work">Projects</a><a href="#achievements">Achievements</a><a href="#experience">Experience</a><a className="nav-cta" href="#contact">Contact</a></nav>
+    </header>
+    <aside className={`mobile-nav-dock${dockOpen ? ' is-open' : ''}`} onPointerEnter={(event) => { if (event.pointerType !== 'touch') setDockOpen(true); }} onPointerLeave={(event) => { if (event.pointerType !== 'touch') setDockOpen(false); }} onFocus={() => setDockOpen(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDockOpen(false); }}>
+      <nav className="mobile-nav-links" aria-label="Mobile navigation">
+        {mobileItems.map((item) => <a className="mobile-nav-item" key={item.href} href={item.href} aria-label={item.label} onClick={(event) => {
+          if (!dockOpen) { event.preventDefault(); setDockOpen(true); return; }
+          setDockOpen(false);
+        }}>{item.icon}<span>{item.label}</span></a>)}
+      </nav>
+    </aside>
+  </>;
 }
 
 export function Hero() {
